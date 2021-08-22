@@ -14,18 +14,19 @@
 
       <div class="steps">
         <div class="steps-content">
-          Сюда необходимо вывести текст активного шага по его индексу
+          {{steps[activeIndex].text}}
         </div>
         <ul class="steps-list">
-          <li class="steps-item done"><span>1</span> Шаг 1</li>
-          <li class="steps-item done"><span>2</span> Шаг 2</li>
-          <li class="steps-item active"><span>3</span> Шаг 3</li>
-          <li class="steps-item"><span>4</span> Шаг 4</li>
-        </ul>
-        <div>
-          <button class="btn">Назад</button>
-          <button class="btn primary">Вперед</button>
+          <li v-for="(item, index) in steps" :key="item.title" @click="setActive(index, item.text)" class="steps-item " :class="[currentStep >= index ? 'done' :''], [currentStep == index ? 'active' :''] "><span>{{index+1}}</span> {{item.title}}</li>
+        </ul>  
+        <div v-if="isFinish">
+          <button @click="reset()" class="btn primary">Начать заново</button>
         </div>
+        <div v-else>
+          <button @click="prev" :disabled="activeIndex == 0" class="btn">Назад</button>
+          <button @click="activeIndex > 4 ? reset():nextOfFinish()" class="btn primary">{{prevButtonText}}</button>
+        </div>
+      
       </div>
     </div>
   </div>

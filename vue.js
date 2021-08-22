@@ -12,28 +12,59 @@ const App = {
         {title: 'Роутер', text: 'В данном блоке вы узнаете все о том, как работает мультиязычность во Vue. Мы создадим миниклон Gmail в данном блоке, где вы на практике увидите как работать с динамическим роутером.'},
         {title: 'Vuex', text: 'В блоке вы узнаете абсолютно все про Vuex. Вы узнаете как работать с данными, какие есть лучшие практики по их программированию и структурированию. Все на практике.'},
         {title: 'Composition', text: 'Одним из наиболее важных обновлений в Vue 3 является появление альтернативного синтаксиса Composition API. В этом блоке вы узнаете все, чтобы полностью пользоваться данными синтаксисом на практических примерах. Помимо этого вы узнаете как работать совместно с Vue Router и Vuex.'},
-      ]
+      ],
+      prevButtonText:'Вперед',
+      isFinish:false
     }
   },
   methods: {
     prev() {
-      // когда нажимаем кнопку назад
+      this.activeIndex--;
     },
     reset() {
-      // начать заново
+      this.activeIndex = 0;
+      this.isFinish = false;
     },
     nextOfFinish() {
-      // кнопка вперед или закончить
+      this.activeIndex++;
+      if (this.activeIndex == 4) {
+        this.prevButtonText = 'Закончить';
+        this.activeIndex = 4;
+      }
+      else{
+        this.prevButtonText = 'Вперед';
+      }
+      if (this.activeIndex > 4) {
+        this.activeIndex = 4;
+        this.isFinish = true;
+    }
     },
-    setActive(idx) {
-      // когда нажимаем на определенный шаг
+    setActive(idx, text) {
+      this.activeIndex=idx;
+      if (this.activeIndex == 4) {
+        this.prevButtonText = 'Закончить';
+        this.activeIndex = 4;
+      }
+      else {
+        this.prevButtonText = 'Вперед';
+      }
     }
   },
   computed: {
     // тут стоит определить несколько свойств:
     // 1. текущий выбранный шаг
+    currentStep: function(){
+      return this.activeIndex;
+    },
     // 2. выключена ли кнопка назад
+    isPrev: function(){
+      return this.activeIndex == 0 ? true : false;
+    },
+
     // 3. находимся ли мы на последнем шаге
+    isFinal: function(){
+      return this.activeIndex == 4 ? true : false;
+    },
   }
 }
 
